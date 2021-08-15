@@ -1,21 +1,21 @@
 # História de Usuario
 
-## id: 01
+## Id: 01
 * Eu como Aluno, desejo acessar as notas por meio do sistema com o meu login e minha senha.
 
-* Desta forma eu posso me matricular nas materias da disciplina que eu desejo.
+* Desta forma eu posso me matricular nas matérias da disciplina que eu desejo.
 
-## id: 02
+## Id: 02
 * Eu como Professor, desejo acessar o sistema por meio do meu login e da minha senha.
 
-* Desta forma eu posso visualizar quais alunos estão matriculados em minha materia.
+* Desta forma eu posso visualizar quais alunos estão matriculados em minha matéria.
 
-## id: 03
-* Eu como Tesoureiro da Universidade, desejo ter acesso atravez do sistema, para poder observar os pagamentos de cada aluno em relação a cobrança da disciplina em que esta cursando.
+## Id: 03
+* Eu como Tesoureiro da Universidade, desejo ter acesso através do sistema, para poder observar os pagamentos de cada aluno em relação a cobrança da disciplina em que está cursando.
 
-* Desta forma encaminhar a secretaria da Universidade qual aluno será permitido a continuar com a matricula e quais terão a matricula cancelada.
+* Desta forma encaminhar a secretaria da Universidade qual aluno será permitido a continuar com a matrícula e quais terão a matrícula cancelada.
 
-## id: 04
-* Eu como Secretario da Universidade, desejo acessar pelo sistema, os resultados enviados do Sistema de Cobrança, informações pessoais do aluno, e disciplina cursada.
+## Id: 04
+* Eu como Secretário da Universidade, desejo acessar pelo sistema, os resultados enviados do Sistema de Cobrança, informações pessoais do aluno, e disciplina cursada.
 
-* Desta forma poderei cancelar ou manter a matricula do aluno na disciplina matriculada por ele, de acordo com o resultado do Sistema de Cobrança.
+* Desta forma poderei cancelar ou manter a matrícula do aluno na disciplina matrículada por ele, de acordo com o resultado do Sistema de Cobrança.
