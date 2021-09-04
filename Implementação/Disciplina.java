@@ -1,7 +1,9 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class Disciplina {
+public class Disciplina implements Serializable{
 	private String nome;
 	private List<Aluno> alunos;
 	private Professor professor;
@@ -9,6 +11,10 @@ public class Disciplina {
 	private double preco;
 	private Oferta oferta;
 	private boolean matriculas;
+	
+	public String printAlunos() {
+		return this.getAlunos().stream().map(Aluno::toString).collect(Collectors.joining("\n"));
+	}
 	
 	public boolean isMatriculas() {
 		return matriculas;
@@ -25,6 +31,7 @@ public class Disciplina {
 		this.setProfessor(professor);
 		this.alunos = new ArrayList<>();
 		this.oferta = new Oferta(this);
+		this.setMatriculas(true);
 	}
 
 	public void addAluno(Aluno a) {
@@ -34,6 +41,7 @@ public class Disciplina {
 		}
 		else
 		{
+			System.out.println("Disciplina lotada!");
 			this.setMatriculas(false);
 		}
 	}
@@ -48,8 +56,22 @@ public class Disciplina {
 
 	@Override
 	public String toString() {
-		return "Disciplina [Nome: " + nome + ", Alunos: " + alunos.stream().map((m) -> m.toString()) + ", professor=" + professor.toString() + ", ativa=" + ativa
-				+ ", preco=" + preco + "]";
+		return " \nNome: " + nome + ", Professor(es): " + this.prof() + ", Ativa: " + ativa
+				+ ", Preço: " + preco;
+	}
+	
+	public String visualizar() {
+		return " Nome: " + nome + " \\ Preço: " + preco + " \\ Professor(es): " + this.prof();
+	}
+	
+	public String prof() {
+		if(this.getProfessor() == null) {
+			return " -- ";
+		}
+		else
+		{
+			return this.getProfessor().toString();
+		}
 	}
 
 	public String getNome() {
@@ -90,5 +112,16 @@ public class Disciplina {
 
 	public void setPreco(double preco) {
 		this.preco = preco;
+	}
+	
+	public void verificarDisciplina() {
+		if(this.getAlunos().size() >= this.getOferta().getMinAlunos())
+		{
+			this.setAtiva(true);
+		}
+		else
+		{
+			this.setAtiva(false);
+		}
 	}
 }

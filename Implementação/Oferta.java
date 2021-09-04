@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.List;
 
-public class Oferta {
+public class Oferta implements Serializable{
 	private static final int MAX_ALUNOS = 60;
 	private static final int MIN_ALUNOS = 3;
 	private Disciplina disc;

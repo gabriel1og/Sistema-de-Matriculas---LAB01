@@ -1,16 +1,19 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class Aluno extends Usuario{
+public class Aluno extends Usuario implements Serializable{
 	private int matricula;
 	private List<Disciplina> discs;
 	private String nome;
-	private List<Historico> historico;
+	private List<Disciplina> historico;
 	private Curso curso;
 	private double precoAPagar;
 	private Matricula matri;
 	private boolean cadastrarObri;
 	private boolean cadastrarOpci;
+	private boolean pago;
 
 	public Aluno(String email, int senha, int confirmar, int matricula, String nome, Curso curso) {
 		super(email, senha, confirmar);
@@ -22,44 +25,89 @@ public class Aluno extends Usuario{
 		this.setCadastrarObri(true);
 		this.setCadastrarOpci(true);
 		this.setCurso(curso);
+		this.setPago(true);
+	}
+	
+	public String disciplinasMatriculadas() {
+		return this.getDiscs().stream().map(Disciplina::toString).collect(Collectors.joining("\n"));
+	}
+	
+	public String disciplinasOpciDoCurso() {
+		return this.getCurso().getDiscOpci().stream().map(Disciplina::toString).collect(Collectors.joining());
+	}
+	
+	public String disciplinasObriDoCurso() {
+		return this.getCurso().getDiscObri().stream().map(Disciplina::toString).collect(Collectors.joining());
+	}
+	
+	public String printHistorico() {
+		return this.getHistorico().stream().map(Disciplina::toString).collect(Collectors.joining("\n"));
 	}
 
-	public void matricularObri(String nome) {
+	public String matricularObri(String nome) {
+		String s;
 		if(this.isCadastrarObri())
 		{
-			Disciplina d = this.getCurso().getDiscObri().stream().filter((m) -> m.getNome().equals(nome)).findFirst().orElse(null);
+			Disciplina d = this.getCurso().disciplina(nome, true);
 			if(d == null) {
-				System.out.println("Disciplina não encontrada!");
+				s = "Disciplina não encontrada!";
 			}
 			else {
-				d.addAluno(this);
 				this.getMatri().contObriMaisUm();
-				this.addDiscs(d);
-				this.setPrecoAPagar(d.getPreco() + this.getPrecoAPagar());
+				if(this.isCadastrarObri())
+				{
+					d.addAluno(this);
+					this.addDiscs(d);
+					this.setPrecoAPagar(this.getPrecoAPagar() + d.getPreco());
+					s = "Matriculado na disciplina com sucesso!";
+				}
+				else
+				{
+					s = "Maximo de obrigatorias ja atingido!";
+				}
 			}
 		}
 		else
 		{
-			System.out.println("Maximo de materias Atingidas!");
+			s = "Maximo de materias Atingidas!";
 		}
+		return s;
 	}
-	
-	public void matricularOpci(String nome) {
+
+	public String matricularOpci(String nome) {
+		String s;
 		if(this.isCadastrarOpci()) {
-			Disciplina d = this.getCurso().getDiscOpci().stream().filter((m) -> m.getNome().equals(nome)).findFirst().orElse(null);
+			Disciplina d = this.getCurso().disciplina(nome, false);
 			if(d == null) {
-				System.out.println("Disciplina não encontrada!");
+				s = "Disciplina não encontrada!";
 			}
 			else {
-				d.addAluno(this);
 				this.getMatri().contOpciMaisUm();
-				this.addDiscs(d);
-				this.setPrecoAPagar(d.getPreco() + this.getPrecoAPagar());
+				if(this.isCadastrarOpci())
+				{
+					d.addAluno(this);
+					this.addDiscs(d);
+					this.setPrecoAPagar(this.getPrecoAPagar() + d.getPreco());
+					s = "Matriculado na disciplina com sucesso!";
+				}
+				else
+				{
+					s = "Maximo de opcionais ja atingido!";
+				}
 			}
 		}
 		else {
-			System.out.println("Maximo de materias atingidas!");
+			s = "Maximo de materias Atingidas!";
 		}
+		return s;
+	}
+
+	public boolean isPago() {
+		return pago;
+	}
+
+	public void setPago(boolean pago) {
+		this.pago = pago;
 	}
 	
 	public void addDiscs(Disciplina d) {
@@ -116,18 +164,17 @@ public class Aluno extends Usuario{
 		this.nome = nome;
 	}
 
-	public List<Historico> getHistorico() {
+	public List<Disciplina> getHistorico() {
 		return historico;
 	}
 
-	public void setHistorico(List<Historico> historico) {
+	public void setHistorico(List<Disciplina> historico) {
 		this.historico = historico;
 	}
 
 	@Override
 	public String toString() {
-		return "Aluno [Matricula: " + matricula + ", Nome: " + nome + ", Historico: " + historico.toString()
-		+ ", Curso: " + curso + ", Preço a Pagar: " + precoAPagar + "]";
+		return " Nome: " + nome + " \\ Matrícula: " + matricula +  " \\ Preço a Pagar: " + precoAPagar + " \\ email: " + super.getEmail();
 	}
 
 	public Curso getCurso() {
@@ -144,5 +191,9 @@ public class Aluno extends Usuario{
 
 	public void setPrecoAPagar(double precoAPagar) {
 		this.precoAPagar = precoAPagar;
+	}
+	
+	public void disciplinasDesativadas() {
+		this.getDiscs().removeIf((m) -> m.isAtiva() == false);
 	}
 }

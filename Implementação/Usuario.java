@@ -1,5 +1,6 @@
+import java.io.Serializable;
 
-public class Usuario {
+public class Usuario implements Serializable{
 	private String email;
 	private int senha;
 	private int confirmar;
@@ -8,6 +9,10 @@ public class Usuario {
 		this.setConfirmar(confirmar);
 		this.setEmail(email);
 		this.setSenha(senha);
+	}
+	
+	public boolean confirmaSenha(int s) {
+		return this.getSenha() == s;
 	}
 
 	public String getEmail() {

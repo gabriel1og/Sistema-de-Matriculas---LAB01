@@ -1,5 +1,6 @@
+import java.io.Serializable;
 
-public class Matricula {
+public class Matricula implements Serializable{
 	private int contObrigatorias = 0;
 	private int contOpcionais = 0;
 	private Aluno aluno;
@@ -12,14 +13,14 @@ public class Matricula {
 	
 	public void contObriMaisUm() {
 		this.setContObrigatorias(this.getContObrigatorias() + 1);
-		if(this.getContObrigatorias() == this.getMaxObrigatorias()) {
+		if(this.getContObrigatorias() > this.MAX_OBRIGATORIAS) {
 			this.getAluno().setCadastrarObri(false);
 		}
 	}
 	
 	public void contOpciMaisUm() {
 		this.setContOpcionais(this.getContOpcionais() + 1);
-		if(this.getContOpcionais() == this.getMaxOpcionais()) {
+		if(this.getContOpcionais() > this.MAX_OPCIONAIS) {
 			this.aluno.setCadastrarOpci(false);
 		}
 	}

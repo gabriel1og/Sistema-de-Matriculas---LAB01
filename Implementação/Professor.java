@@ -1,8 +1,10 @@
+import java.io.Serializable;
+import java.util.stream.Collectors;
 
-public class Professor extends Usuario{
+public class Professor extends Usuario implements Serializable{
 	@Override
 	public String toString() {
-		return "Professor [Nome: " + nome + "]";
+		return " Nome: " + nome + " \\ Ministra na Disciplina: " + this.disc.getNome() + " \\ email: " + super.getEmail();
 	}
 
 	private Disciplina disc;
@@ -12,6 +14,10 @@ public class Professor extends Usuario{
 		super(email, senha, confirmar);
 		this.setDisc(disc);
 		this.setNome(nome);
+	}
+	
+	public String printAlunos() {
+		return this.getDisc().getAlunos().stream().map(Aluno::toString).collect(Collectors.joining("\n"));
 	}
 	
 	public Disciplina getDisc() {
